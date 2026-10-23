@@ -1,4 +1,4 @@
-import { baseReward, definitions, replay } from "./games/engine.js";
+import { baseReward, definitions, replay } from "./engine.js";
 
 export const prices = [500, 800, 1200, 1800, 2600];
 export const upgradePrice = (level) =>
