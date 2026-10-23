@@ -1,5 +1,5 @@
 import { ArenaAPI, upgradePrice, wheelLabels } from "./api.js";
-import { definitions, createGame } from "./games/engine.js";
+import { definitions, createGame } from "./engine.js";
 const $ = (s) => document.querySelector(s),
   api = new ArenaAPI(),
   fmt = (n) => new Intl.NumberFormat("de-DE").format(n),
