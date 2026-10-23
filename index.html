@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#10101b" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; connect-src 'self' https://0.peerjs.com wss://0.peerjs.com; style-src 'self'; img-src 'self' data:; font-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'" />
+    <meta
+      name="description"
+      content="Deine Freunde. Acht Minispiele. Eine Rangliste. CASH CLASH ist deine kostenlose Multiplayer-Arcade mit virtuellen Coins."
+    />
+    <title>CASH CLASH · Multiplayer Arcade</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="config.js" defer></script>
+    <script type="module" src="app.js"></script>
+  </head>
+  <body>
+    <div class="ambient"></div>
+    <header class="topbar">
+      <a class="brand" href="./" aria-label="Cash Clash Startseite"
+        ><span class="brand-mark">ϟ</span> CASH<span>CLASH</span
+        ><sup>ARCADE</sup></a
+      >
+      <div class="top-actions">
+        <span class="connection" id="connection">● VERBINDUNG WIRD GELADEN</span
+        ><button class="icon-button" id="sound" aria-label="Sound einschalten">
+          ♪ Aus</button
+        ><button
+          class="avatar"
+          id="profile"
+          aria-label="Persönliche Statistiken"
+        >
+          P
+        </button>
+      </div>
+    </header>
+    <main>
+      <section class="hero">
+        <div>
+          <p class="eyebrow">
+            <span class="live-dot"></span> DEINE CREW. DEINE CHALLENGE.
+          </p>
+          <h1>Kleine Spiele.<br /><span>Große Rivalen.</span></h1>
+          <p class="hero-copy">
+            Sammle Coins. Steigere deinen Multiplikator.<br />Und zeig deinen
+            Freunden, wer die Lobby regiert.
+          </p>
+          <div class="hero-tags">
+            <span>✦ 8 Minispiele</span><span>♧ Ohne Registrierung</span
+            ><span>◈ 100 % virtuelle Coins</span>
+          </div>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <div class="orbit o1"></div>
+          <div class="orbit o2"></div>
+          <span class="spark s1">✦</span><span class="spark s2">+</span
+          ><span class="little-coin">ϟ</span>
+          <div class="big-coin">ϟ</div>
+          <div class="hero-ticket">
+            <span>DEIN NÄCHSTER HIGHSCORE</span><strong>LET’S CLASH ↗</strong>
+          </div>
+          <span class="floating-pill">⚡ Play. Earn. Repeat.</span>
+        </div>
+      </section>
+      <section class="entry panel" id="entry">
+        <div>
+          <span class="section-kicker">ZUSAMMEN SPIELT’S SICH BESSER</span>
+          <h2>Deine Lobby wartet.</h2>
+          <p>Erstelle einen Raum oder spring direkt zu deinen Freunden.</p>
+        </div>
+        <form id="lobby-form">
+          <label for="player-name">Dein Spielername</label
+          ><input
+            id="player-name"
+            maxlength="20"
+            minlength="2"
+            placeholder="Wie heißt du in der Arena?"
+            required
+            autocomplete="nickname"
+          />
+          <div class="join-controls">
+            <button class="primary" type="submit" id="create-room">
+              Raum erstellen <span>↗</span></button
+            ><span>oder</span
+            ><input
+              id="room-input"
+              maxlength="6"
+              pattern="[A-Za-z0-9]{6}"
+              placeholder="RAUMCODE"
+              aria-label="Sechsstelliger Raumcode"
+            /><button type="button" class="secondary" id="join-room">
+              Beitreten →
+            </button>
+          </div>
+          <small id="setup-hint"
+            >Eine Person eröffnet die Lobby und lässt die Seite geöffnet. Freunde
+            treten über den sechsstelligen Raumcode direkt bei.</small
+          >
+        </form>
+      </section>
+      <section class="room-bar" id="room-bar" hidden>
+        <div>
+          <span class="live-dot"></span> DEINE LOBBY
+          <button id="copy-code" class="code" title="Raumcode kopieren"></button
+          ><span id="player-count"></span>
+        </div>
+        <button class="text-button" id="leave">Raum verlassen ↗</button>
+      </section>
+      <div class="dashboard">
+        <section class="leaderboard panel">
+          <div class="section-head">
+            <div>
+              <span class="section-kicker">DER WEG NACH OBEN</span>
+              <h2>Die Rangliste <span>♛</span></h2>
+            </div>
+            <span class="live-label" id="board-status">VORSCHAU</span>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>RANG</th>
+                  <th>SPIELER</th>
+                  <th>COINS</th>
+                  <th>BOOST</th>
+                </tr>
+              </thead>
+              <tbody id="leaderboard"></tbody>
+            </table>
+          </div>
+          <div class="board-footer">
+            <span id="board-footer"
+              >Deine nächste Siegesserie beginnt hier.</span
+            ><span>↗ Auf zum ersten Platz</span>
+          </div>
+        </section>
+        <aside class="boost-card panel">
+          <div class="boost-header">
+            <span class="section-kicker">MEHR AUS JEDEM SPIEL</span
+            ><span>⚡</span>
+          </div>
+          <h2>Level deinen Gewinn.</h2>
+          <p>
+            Ein Upgrade. Dauerhaft mehr Coins.<br />Für jedes Minispiel in
+            dieser Lobby.
+          </p>
+          <div class="multiplier">
+            <span id="multiplier">1,0</span><small>×</small>
+          </div>
+          <div class="upgrade-track">
+            <span class="active"></span><span></span><span></span><span></span
+            ><span></span>
+          </div>
+          <div class="upgrade-price">
+            <span>Nächster Boost <b id="next-multiplier">1,1×</b></span
+            ><strong id="upgrade-cost">◈ 500</strong>
+          </div>
+          <button id="upgrade" class="primary">
+            Boost kaufen <span>↗</span></button
+          ><small id="balance-label">Betritt eine Lobby, um loszulegen.</small>
+        </aside>
+      </div>
+      <section class="games-section" id="games">
+        <div class="section-head">
+          <div>
+            <span class="section-kicker">PICK DEINE CHALLENGE</span>
+            <h2>Die Arcade<span class="count">08</span></h2>
+            <p>Dein Spiel. Dein Tempo. Eure Rangliste.</p>
+          </div>
+          <div class="filter-group" role="group" aria-label="Spiele filtern">
+            <button data-filter="all" class="selected">Alle Spiele</button
+            ><button data-filter="favorites">♡ Favoriten</button>
+          </div>
+        </div>
+        <div class="game-grid" id="game-grid"></div>
+      </section>
+      <section class="wheel-banner panel">
+        <div class="wheel-mini" aria-hidden="true">✦</div>
+        <div>
+          <span class="section-kicker">EIN BISSCHEN GLÜCK GEHÖRT DAZU</span>
+          <h2>Heute schon am Rad gedreht?</h2>
+          <p>
+            Alle 3 Minuten ein kostenloser Dreh. Ausschließlich virtuelle Coins.
+          </p>
+        </div>
+        <button class="gold-button" id="open-wheel">Glücksrad öffnen ↗</button>
+      </section>
+      <footer>
+        <a class="brand" href="./">ϟ CASH<span>CLASH</span></a
+        ><span>Gute Spiele. Gute Freunde. Kein Echtgeld.</span
+        ><span>MADE FOR YOUR NEXT HIGHSCORE ✦</span>
+      </footer>
+    </main>
+    <dialog id="game-dialog">
+      <div class="modal-head">
+        <div>
+          <span class="section-kicker">CASH CLASH ARCADE</span>
+          <h2 id="game-title"></h2>
+        </div>
+        <button
+          class="icon-button"
+          id="close-game"
+          aria-label="Spiel schließen"
+        >
+          ✕
+        </button>
+      </div>
+      <div id="game-intro">
+        <div id="intro-icon"></div>
+        <p id="game-help"></p>
+        <p>
+          Maximal 600 Basis-Coins pro Spiel · Dein Boost wird anschließend
+          angewendet.
+        </p>
+        <button class="primary" id="start-game">Challenge starten →</button>
+      </div>
+      <div id="game-play" hidden>
+        <div class="game-hud">
+          <span id="game-score">0 Punkte</span><span id="game-time">0:00</span>
+        </div>
+        <canvas
+          id="canvas"
+          width="600"
+          height="400"
+          tabindex="0"
+          aria-label="Spielfeld"
+        ></canvas>
+        <div class="touch-controls" aria-label="Spielsteuerung">
+          <button data-key="left" aria-label="Links">←</button
+          ><button data-key="up" aria-label="Oben">↑</button
+          ><button data-key="down" aria-label="Unten">↓</button
+          ><button data-key="right" aria-label="Rechts">→</button>
+        </div>
+        <small id="play-help"></small>
+      </div>
+      <div id="game-result" hidden>
+        <span class="result-icon">✦</span>
+        <p>CHALLENGE ABGESCHLOSSEN</p>
+        <h2 id="result-coins"></h2>
+        <p id="result-details"></p>
+        <button class="secondary" id="retry-save" hidden>
+          Speichern erneut versuchen</button
+        ><button class="primary" id="retry-game">Nochmal spielen ↗</button
+        ><button class="text-button" id="back-lobby">Zur Lobby</button>
+      </div>
+    </dialog>
+    <dialog id="wheel-dialog">
+      <div class="modal-head">
+        <div>
+          <span class="section-kicker">KOSTENLOS · ALLE 3 MINUTEN</span>
+          <h2>Dein Dreh. Dein Glück.</h2>
+        </div>
+        <button
+          class="icon-button"
+          id="close-wheel"
+          aria-label="Glücksrad schließen"
+        >
+          ✕
+        </button>
+      </div>
+      <p>Jedes der 8 Ergebnisse hat eine Wahrscheinlichkeit von 12,5 %.</p>
+      <div class="wheel-wrap">
+        <div class="wheel-pointer">▼</div>
+        <div id="wheel">
+          <span>+100</span><span>+250</span><span>+500</span><span>+1.000</span
+          ><span>+10 %</span><span>+25 %</span><span>−10 %</span
+          ><span>−25 %</span>
+        </div>
+        <div class="wheel-center">ϟ</div>
+      </div>
+      <button class="gold-button" id="spin">Kostenlos drehen ↗</button>
+      <p id="wheel-result" role="status">
+        Prozent-Ergebnisse beziehen sich auf dein Guthaben. Boosts gelten nur
+        für Minispiele.
+      </p>
+      <small
+        >Keine gekauften Drehungen. Keine Auszahlungen. Kein Echtgeld.</small
+      >
+    </dialog>
+    <dialog id="stats-dialog">
+      <div class="modal-head">
+        <h2>Deine Statistiken</h2>
+        <button
+          id="close-stats"
+          class="icon-button"
+          aria-label="Statistiken schließen"
+        >
+          ✕
+        </button>
+      </div>
+      <div id="stats-content"></div>
+    </dialog>
+    <div id="toasts" role="status" aria-live="polite"></div>
+  </body>
+</html>
